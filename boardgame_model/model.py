@@ -18,7 +18,7 @@ where their rival lies, they capture the other and win.
         
         # Create agents
         for i in range(self.num_agents):
-            a = MoneyAgent(i, self)
+            a = Piece(i, self)
             self.schedule.add(a)
             # Add the agent to a random grid cell
             x = self.random.randrange(self.grid.width)
@@ -37,8 +37,8 @@ where their rival lies, they capture the other and win.
             self.step()
 
 
-class MoneyAgent(Agent):
-    """ An agent with fixed initial wealth."""
+class Piece(Agent):
+    """ A game piece that can either be red or blue."""
     def __init__(self, unique_id, model):
         super().__init__(unique_id, model)
         self.wealth = 1
