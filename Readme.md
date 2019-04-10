@@ -16,7 +16,7 @@ southwest=7, west=8).
 
 ## How to Run
 
-To launch the interactive server, as described in the [last section of the  mesa tutorial](http://mesa.readthedocs.io/en/latest/intro-tutorial.html#adding-visualization), from the directory, run:
+To launch the interactive server, as described in the [last section of the  mesa tutorial](https://mesa.readthedocs.io/en/master/tutorials/adv_tutorial.html), from the directory, run:
 
 ```
     $ mesa runserver
