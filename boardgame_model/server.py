@@ -2,7 +2,6 @@ from mesa.visualization.ModularVisualization import ModularServer
 from .model import BoardGameModel
 
 from mesa.visualization.modules import CanvasGrid
-from mesa.visualization.modules import ChartModule
 from mesa.visualization.UserParam import UserSettableParameter
 
 
@@ -22,10 +21,7 @@ def agent_portrayal(agent):
 
 
 grid = CanvasGrid(agent_portrayal, 10, 10, 500, 500)
-chart = ChartModule([
-    {"Label": "Gini", "Color": "#0000FF"}],
-    data_collector_name='datacollector'
-)
+
 
 model_params = {
     "N": UserSettableParameter('slider', "Number of agents", 100, 2, 200, 1,
@@ -34,5 +30,5 @@ model_params = {
     "height": 10
 }
 
-server = ModularServer(BoardGameModel, [grid, chart], "Money Model", model_params)
+server = ModularServer(BoardGameModel, [grid], "Money Model", model_params)
 server.port = 8521

@@ -1,15 +1,7 @@
 from mesa import Agent, Model
 from mesa.time import RandomActivation
 from mesa.space import MultiGrid
-from mesa.datacollection import DataCollector
 
-
-def compute_gini(model):
-    agent_wealths = [agent.wealth for agent in model.schedule.agents]
-    x = sorted(agent_wealths)
-    N = model.num_agents
-    B = sum(xi * (N - i) for i, xi in enumerate(x)) / (N * sum(x))
-    return (1 + (1 / N) - 2 * B)
 
 
 class BoardGameModel(Model):
@@ -23,10 +15,7 @@ where their rival lies, they capture the other and win.
         self.num_agents = N
         self.grid = MultiGrid(height, width, True)
         self.schedule = RandomActivation(self)
-        self.datacollector = DataCollector(
-            model_reporters={"Gini": compute_gini},
-            agent_reporters={"Wealth": "wealth"}
-        )
+        
         # Create agents
         for i in range(self.num_agents):
             a = MoneyAgent(i, self)
@@ -37,12 +26,11 @@ where their rival lies, they capture the other and win.
             self.grid.place_agent(a, (x, y))
 
         self.running = True
-        self.datacollector.collect(self)
+        
 
     def step(self):
         self.schedule.step()
-        # collect data
-        self.datacollector.collect(self)
+        
 
     def run_model(self, n):
         for i in range(n):
