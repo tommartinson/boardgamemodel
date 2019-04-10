@@ -8,11 +8,11 @@ and take turns moving 1 adjacent circle in a random direction each move. If they
 where their rival lies, they capture the other and win.
 
 Agent Rules:
-• For each move they only have enough energy to traverse 1 circle away in 1 of 8 random
+* For each move they only have enough energy to traverse 1 circle away in 1 of 8 random
 directions (northwest=1, north=2, northeast=3, east=4, southeast=5, south=6,
 southwest=7, west=8).
-• If the random direction goes off-grid they stay on the same circle without moving.
-• They capture their rival and win when landing on occupied circle.
+* If the random direction goes off-grid they stay on the same circle without moving.
+* They capture their rival and win when landing on occupied circle.
 
 ## How to Run
 
