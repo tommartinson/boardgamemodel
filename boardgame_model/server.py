@@ -9,14 +9,10 @@ def agent_portrayal(agent):
     portrayal = {"Shape": "circle",
                  "Filled": "true",
                  "r": 0.5}
-
-    if agent.wealth > 0:
-        portrayal["Color"] = "red"
-        portrayal["Layer"] = 0
-    else:
-        portrayal["Color"] = "grey"
-        portrayal["Layer"] = 1
-        portrayal["r"] = 0.2
+    
+    portrayal["Color"] = "red"
+    portrayal["Layer"] = 0
+    
     return portrayal
 
 
@@ -30,5 +26,5 @@ model_params = {
     "height": 10
 }
 
-server = ModularServer(BoardGameModel, [grid], "Money Model", model_params)
+server = ModularServer(BoardGameModel, [grid], "Board Game Model", model_params)
 server.port = 8521
