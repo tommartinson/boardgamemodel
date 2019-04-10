@@ -34,8 +34,8 @@ If your browser doesn't open automatically, point it to [http://127.0.0.1:8521/]
 
 ## Further Reading
 
-The full tutorial describing how a mesa model is built can be found at:
-http://mesa.readthedocs.io/en/latest/intro-tutorial.html
+The full documentation describing how a mesa model is built can be found at:
+https://mesa.readthedocs.io/en/master/
 
 
 
