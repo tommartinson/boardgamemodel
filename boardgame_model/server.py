@@ -1,29 +1,30 @@
 from mesa.visualization.ModularVisualization import ModularServer
 from .model import BoardGameModel
 from mesa.visualization.modules import CanvasGrid
-from mesa.visualization.UserParam import UserSettableParameter
+from .model import RedPiece, BluePiece
+
 
 
 def agent_portrayal(agent):
-    portrayal = {"Shape": "circle",
-                 "Filled": "true",
-                 "r": 0.5}
+    portrayal = {"Shape": "circle","Filled": "true","r": 0.5}
     
-    portrayal["Color"] = "red"
-    portrayal["Layer"] = 0
+    if type(agent) is RedPiece:
+        portrayal["Color"] = "red"
+        portrayal["Layer"] = 0
+    
+    
+    if type(agent) is BluePiece:
+        portrayal["Color"] = "blue"
+        portrayal["r"] = 0.3
+        portrayal["Layer"] = 1
+    
     
     return portrayal
 
 
-grid = CanvasGrid(agent_portrayal, 10, 10, 500, 500)
+#create grid (numx,numy,pixelsx,pixelsy)
+grid = CanvasGrid(agent_portrayal, 5, 5, 500, 500)
 
 
-model_params = {
-    "N": UserSettableParameter('slider', "Number of agents", 100, 2, 200, 1,
-                               description="Choose how many agents to include in the model"),
-    "width": 10,
-    "height": 10
-}
-
-server = ModularServer(BoardGameModel, [grid], "Board Game Model", model_params)
+server = ModularServer(BoardGameModel, [grid], "Board Game Model")
 server.port = 8521
