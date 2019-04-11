@@ -47,7 +47,8 @@ class RedPiece(Agent):
     def __init__(self, unique_id, model):
         super().__init__(unique_id, model)
         self.color = 1 # 1 for red
-
+    
+    #MODIFY MOVE FUNCTION
     def move(self):
         possible_steps = self.model.grid.get_neighborhood(
             self.pos, moore=True, include_center=False
@@ -64,6 +65,7 @@ class BluePiece(Agent):
         super().__init__(unique_id, model)
         self.color = 0 # 0 for blue
 
+    #MODIFY MOVE FUNCTION
     def move(self):
         possible_steps = self.model.grid.get_neighborhood(
             self.pos, moore=True, include_center=False
