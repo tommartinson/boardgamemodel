@@ -63,11 +63,11 @@ class RedPiece(Agent):
     """ A red game piece."""
     def __init__(self, unique_id, model):
         super().__init__(unique_id, model)
-        self.color = 1 # 1 for red
+        
     
-    #MODIFY MOVE FUNCTION
+    
     def move(self):
-        #self.model.redAgentList 
+        
         possible_steps = self.model.grid.get_neighborhood(self.pos, moore=True, include_center=False)
         new_position = self.random.choice(possible_steps)
         
@@ -76,7 +76,10 @@ class RedPiece(Agent):
         else: # check if cell has a blue agent
             cellmates = self.model.grid.get_cell_list_contents([new_position])
             if type(cellmates[0]) is BluePiece:
-                print("HOLY CRAP IT WORKS")
+                
+                self.model.grid.remove_agent(cellmates[0])
+                self.model.blueAgentList.remove(cellmates[0])
+                print(len(self.model.blueAgentList))
             
             
 
@@ -89,7 +92,7 @@ class BluePiece(Agent):
     """ A blue game piece."""
     def __init__(self, unique_id, model):
         super().__init__(unique_id, model)
-        self.color = 0 # 0 for blue
+        
 
     #MODIFY MOVE FUNCTION
     def move(self):
@@ -97,7 +100,14 @@ class BluePiece(Agent):
         new_position = self.random.choice(possible_steps)
         
         if self.model.grid.is_cell_empty(new_position): # check if cell is empty
-            self.model.grid.move_agent(self, new_position)
+            self.model.grid.move_agent(self, new_position) # move agent to empty cell
+        else: # check if cell has a red agent
+            cellmates = self.model.grid.get_cell_list_contents([new_position])
+            if type(cellmates[0]) is RedPiece:
+                
+                self.model.grid.remove_agent(cellmates[0])
+                self.model.redAgentList.remove(cellmates[0])
+                print(len(self.model.redAgentList))
 
     def step(self):
         self.move()

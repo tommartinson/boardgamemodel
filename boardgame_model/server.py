@@ -15,7 +15,7 @@ def agent_portrayal(agent):
     
     if type(agent) is BluePiece:
         portrayal["Color"] = "blue"
-        portrayal["r"] = 0.3
+        portrayal["r"] = 0.5
         portrayal["Layer"] = 1
     
     
