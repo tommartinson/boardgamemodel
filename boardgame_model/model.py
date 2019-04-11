@@ -1,5 +1,5 @@
 from mesa import Agent, Model
-from mesa.space import MultiGrid
+from mesa.space import SingleGrid
 import random
 
 
@@ -11,9 +11,9 @@ and take turns moving 1 adjacent circle in a random direction each move. If they
 where their rival lies, they capture the other and win.
     """
 
-    def __init__(self, N=20, width=5, height=5):
+    def __init__(self, N=10, width=5, height=5):
         self.num_agents = int(N/2)
-        self.grid = MultiGrid(height, width, True)
+        self.grid = SingleGrid(height, width, True)
         self.redAgentList = []
         self.blueAgentList = []
         self.turn = 1
@@ -45,7 +45,6 @@ where their rival lies, they capture the other and win.
         if ((numRed > 0) and (numBlue > 0)):
             if (self.turn == 1):
                 print("red turn")
-            
                 self.redAgentList[random.randint(0,numRed-1)].step()
             
                 self.turn = 0
@@ -55,7 +54,7 @@ where their rival lies, they capture the other and win.
             
                 self.turn = 1
         else:
-            print("Game Over")
+            print("Game Over!")
         
         
     
@@ -69,7 +68,9 @@ class RedPiece(Agent):
     def move(self):
         possible_steps = self.model.grid.get_neighborhood(self.pos, moore=True, include_center=False)
         new_position = self.random.choice(possible_steps)
-        self.model.grid.move_agent(self, new_position)
+        
+        if self.model.grid.is_cell_empty(new_position): # check if cell is empty
+            self.model.grid.move_agent(self, new_position)
 
     def step(self):
         self.move()
@@ -86,7 +87,9 @@ class BluePiece(Agent):
     def move(self):
         possible_steps = self.model.grid.get_neighborhood(self.pos, moore=True, include_center=False)
         new_position = self.random.choice(possible_steps)
-        self.model.grid.move_agent(self, new_position)
+        
+        if self.model.grid.is_cell_empty(new_position): # check if cell is empty
+            self.model.grid.move_agent(self, new_position)
 
     def step(self):
         self.move()
