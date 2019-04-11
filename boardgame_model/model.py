@@ -1,6 +1,6 @@
 from mesa import Agent, Model
-from mesa.time import RandomActivation
 from mesa.space import MultiGrid
+import random
 
 
 
@@ -11,37 +11,55 @@ and take turns moving 1 adjacent circle in a random direction each move. If they
 where their rival lies, they capture the other and win.
     """
 
-    def __init__(self, N=25, width=5, height=5):
+    def __init__(self, N=20, width=5, height=5):
         self.num_agents = int(N/2)
         self.grid = MultiGrid(height, width, True)
-        self.schedule = RandomActivation(self)
+        #self.redschedule = RandomActivation(self)
+        #self.blueschedule = RandomActivation(self)
         
-        # Create Red agents
+        self.redAgentList = []
+        self.blueAgentList = []
+        self.turn = 1
+        
+        
+        # Create Red and Blue agents
         for i in range(self.num_agents):
             a = RedPiece(i, self)
-            self.schedule.add(a)
-            # Add the agent to a random grid cell
-            x = self.random.randrange(self.grid.width)
-            y = self.random.randrange(self.grid.height)
-            self.grid.place_agent(a, (x, y))
             
-        # Create Blue agents
-        for i in range(self.num_agents):
-            a = BluePiece(i, self)
-            self.schedule.add(a)
-            # Add the agent to a random grid cell
-            x = self.random.randrange(self.grid.width)
-            y = self.random.randrange(self.grid.height)
-            self.grid.place_agent(a, (x, y))
-
+            self.redAgentList.append(a)
+            
+            #self.redschedule.add(a)
+            # Add the agent to a random empty grid cell
+            self.grid.place_agent(a, self.grid.find_empty())
+            
+            b = BluePiece(i, self)
+            
+            self.blueAgentList.append(b)
+            
+            #self.blueschedule.add(b)
+            
+            # Add the agent to a random empty grid cell
+            self.grid.place_agent(b, self.grid.find_empty())
+            
+     
         self.running = True
         
 
     def step(self):
-        self.schedule.step()
+        if (self.turn == 1):
+            print("red turn")
+            
+            self.redAgentList[random.randint(0,len(self.redAgentList)-1)].step()
+            
+            self.turn = 0
+        else:
+            print("blue turn")
+            self.blueAgentList[random.randint(0,len(self.blueAgentList)-1)].step()
+            
+            self.turn = 1
         
-
-
+        
+    
 class RedPiece(Agent):
     """ A red game piece."""
     def __init__(self, unique_id, model):
@@ -50,14 +68,14 @@ class RedPiece(Agent):
     
     #MODIFY MOVE FUNCTION
     def move(self):
-        possible_steps = self.model.grid.get_neighborhood(
-            self.pos, moore=True, include_center=False
-        )
+        possible_steps = self.model.grid.get_neighborhood(self.pos, moore=True, include_center=False)
         new_position = self.random.choice(possible_steps)
         self.model.grid.move_agent(self, new_position)
 
     def step(self):
         self.move()
+        
+    
         
 class BluePiece(Agent):
     """ A blue game piece."""
@@ -67,12 +85,12 @@ class BluePiece(Agent):
 
     #MODIFY MOVE FUNCTION
     def move(self):
-        possible_steps = self.model.grid.get_neighborhood(
-            self.pos, moore=True, include_center=False
-        )
+        possible_steps = self.model.grid.get_neighborhood(self.pos, moore=True, include_center=False)
         new_position = self.random.choice(possible_steps)
         self.model.grid.move_agent(self, new_position)
 
     def step(self):
         self.move()
+        
+        
         
