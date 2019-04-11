@@ -55,6 +55,7 @@ where their rival lies, they capture the other and win.
                 self.turn = 1
         else:
             print("Game Over!")
+            self.running = False
         
         
     
@@ -66,11 +67,18 @@ class RedPiece(Agent):
     
     #MODIFY MOVE FUNCTION
     def move(self):
+        #self.model.redAgentList 
         possible_steps = self.model.grid.get_neighborhood(self.pos, moore=True, include_center=False)
         new_position = self.random.choice(possible_steps)
         
         if self.model.grid.is_cell_empty(new_position): # check if cell is empty
-            self.model.grid.move_agent(self, new_position)
+            self.model.grid.move_agent(self, new_position) # move agent to empty cell
+        else: # check if cell has a blue agent
+            cellmates = self.model.grid.get_cell_list_contents([new_position])
+            if type(cellmates[0]) is BluePiece:
+                print("HOLY CRAP IT WORKS")
+            
+            
 
     def step(self):
         self.move()
