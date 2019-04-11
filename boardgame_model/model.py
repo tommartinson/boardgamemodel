@@ -14,9 +14,6 @@ where their rival lies, they capture the other and win.
     def __init__(self, N=20, width=5, height=5):
         self.num_agents = int(N/2)
         self.grid = MultiGrid(height, width, True)
-        #self.redschedule = RandomActivation(self)
-        #self.blueschedule = RandomActivation(self)
-        
         self.redAgentList = []
         self.blueAgentList = []
         self.turn = 1
@@ -25,18 +22,15 @@ where their rival lies, they capture the other and win.
         # Create Red and Blue agents
         for i in range(self.num_agents):
             a = RedPiece(i, self)
-            
             self.redAgentList.append(a)
             
-            #self.redschedule.add(a)
+            
             # Add the agent to a random empty grid cell
             self.grid.place_agent(a, self.grid.find_empty())
             
             b = BluePiece(i, self)
-            
             self.blueAgentList.append(b)
             
-            #self.blueschedule.add(b)
             
             # Add the agent to a random empty grid cell
             self.grid.place_agent(b, self.grid.find_empty())
@@ -46,17 +40,22 @@ where their rival lies, they capture the other and win.
         
 
     def step(self):
-        if (self.turn == 1):
-            print("red turn")
+        numRed = len(self.redAgentList)
+        numBlue = len(self.blueAgentList)
+        if ((numRed > 0) and (numBlue > 0)):
+            if (self.turn == 1):
+                print("red turn")
             
-            self.redAgentList[random.randint(0,len(self.redAgentList)-1)].step()
+                self.redAgentList[random.randint(0,numRed-1)].step()
             
-            self.turn = 0
+                self.turn = 0
+            else:
+                print("blue turn")
+                self.blueAgentList[random.randint(0,numBlue-1)].step()
+            
+                self.turn = 1
         else:
-            print("blue turn")
-            self.blueAgentList[random.randint(0,len(self.blueAgentList)-1)].step()
-            
-            self.turn = 1
+            print("Game Over")
         
         
     
